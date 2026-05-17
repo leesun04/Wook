@@ -1,456 +1,998 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>욱이네 칼국수 | 정성을 빚다</title>
-  
-  <!-- 폰트 로드: 전통적인 느낌의 명조체와 모던한 고딕체 혼합 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>욱이네 칼국수</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── 변수 및 기본 설정 ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
-      --bg-light: #FDFDFD;
-      --text-dark: #1A1A1A;
-      --text-gray: #666666;
-      --text-light: #999999;
-      --accent: #B28753; /* 밀, 나무 느낌의 따뜻한 베이지 브라운 */
-      --border-color: #EAEAEA;
-      
-      --font-serif: 'Noto Serif KR', serif;
-      --font-sans: 'Pretendard', -apple-system, sans-serif;
+      --cream: #FAF7F2;
+      --warm-white: #FFFDF9;
+      --charcoal: #1C1C1C;
+      --dark: #111111;
+      --gold: #B8924A;
+      --gold-light: #D4A96A;
+      --muted: #7A7067;
+      --border: rgba(184, 146, 74, 0.18);
+      --font-serif: 'Noto Serif KR', 'Playfair Display', serif;
+      --font-sans: 'Noto Sans KR', sans-serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    
+
     body {
-      background-color: var(--bg-light);
-      color: var(--text-dark);
+      background: var(--dark);
+      color: var(--cream);
       font-family: var(--font-sans);
-      line-height: 1.6;
+      font-weight: 300;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── 유틸리티: 스크롤 애니메이션 ── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .delay-1 { transition-delay: 0.1s; }
-    .delay-2 { transition-delay: 0.2s; }
-
-    /* ── 네비게이션 ── */
+    /* ── NAV ── */
     nav {
       position: fixed;
-      top: 0; width: 100%;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 24px 5%;
-      z-index: 1000;
-      background: rgba(253, 253, 253, 0.7);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-bottom: 1px solid transparent;
-      transition: all 0.3s ease;
+      justify-content: space-between;
+      padding: 22px 60px;
+      background: rgba(17, 17, 17, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      transition: padding .4s ease;
     }
-    nav.scrolled {
-      padding: 16px 5%;
-      border-bottom: 1px solid var(--border-color);
-    }
-    
-    .logo {
+    nav.scrolled { padding: 14px 60px; }
+
+    .nav-logo {
       font-family: var(--font-serif);
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      color: var(--text-dark);
+      letter-spacing: .06em;
+      color: var(--cream);
       text-decoration: none;
     }
-    .logo span { color: var(--accent); }
+    .nav-logo span { color: var(--gold); }
 
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 40px;
+      list-style: none;
     }
     .nav-links a {
       text-decoration: none;
-      color: var(--text-gray);
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      color: rgba(250,247,242,.65);
+      transition: color .25s;
+      text-transform: uppercase;
     }
-    .nav-links a:hover { color: var(--text-dark); }
+    .nav-links a:hover { color: var(--gold-light); }
 
-    /* ── 히어로 섹션 ── */
-    .hero {
+    .nav-cta {
+      font-size: .75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      text-decoration: none;
+      transition: background .25s, color .25s;
+      border-radius: 2px;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--dark); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
       position: relative;
-      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 0 20px;
-    }
-    /* 배경 이미지 들어갈 곳 */
-    .hero-bg {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-color: #f5f5f5; /* 이미지 없을 때 배경색 */
-      background-image: url(''); /* ★ 메인 배경 이미지 URL 삽입 ★ */
-      background-size: cover;
-      background-position: center;
-      z-index: -2;
-    }
-    /* 배경 이미지를 부드럽게 눌러주는 오버레이 */
-    .hero-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to bottom, rgba(253,253,253,0.3) 0%, rgba(253,253,253,1) 100%);
-      z-index: -1;
+      overflow: hidden;
     }
 
-    .hero-content h1 {
-      font-family: var(--font-serif);
-      font-size: clamp(3rem, 6vw, 5rem);
-      font-weight: 400;
-      line-height: 1.3;
-      margin-bottom: 20px;
-      color: var(--text-dark);
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 70%, rgba(184,146,74,.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 20%, rgba(184,146,74,.06) 0%, transparent 60%),
+        #111111;
     }
-    .hero-content p {
-      font-size: 1.1rem;
-      color: var(--text-gray);
-      margin-bottom: 40px;
+
+    /* Decorative lines */
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 79px,
+          rgba(184,146,74,.04) 79px,
+          rgba(184,146,74,.04) 80px
+        );
+    }
+
+    .hero-image-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(17,17,17,.3) 0%,
+        rgba(17,17,17,.6) 60%,
+        rgba(17,17,17,.95) 100%
+      );
+      /* 실제 배경 이미지 넣을 때 아래 주석 해제 후 경로 변경 */
+      /* background-image: url('hero.jpg'); */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-content {
+      position: relative;
+      text-align: center;
+      max-width: 820px;
+      padding: 0 24px;
+      animation: heroIn 1.2s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0;
+      transform: translateY(36px);
+    }
+
+    @keyframes heroIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .72rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: .9;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -.01em;
+      margin-bottom: 32px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-light);
+      font-family: 'Playfair Display', serif;
+    }
+
+    .hero-sub {
+      font-size: clamp(.95rem, 2vw, 1.15rem);
+      line-height: 1.75;
+      color: rgba(250,247,242,.6);
+      max-width: 520px;
+      margin: 0 auto 52px;
       font-weight: 300;
     }
 
-    /* ── 공통 섹션 스타일 ── */
-    section {
-      padding: 140px 5%;
-      max-width: 1200px;
-      margin: 0 auto;
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    .section-header {
-      text-align: center;
-      margin-bottom: 80px;
-    }
-    .section-subtitle {
-      font-size: 0.85rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
+
+    .btn-primary {
+      padding: 16px 44px;
+      background: var(--gold);
+      color: var(--dark);
+      font-size: .8rem;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      margin-bottom: 12px;
-      font-weight: 600;
+      text-decoration: none;
+      border-radius: 2px;
+      font-weight: 500;
+      transition: background .25s, transform .2s;
     }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-ghost {
+      padding: 16px 44px;
+      border: 1px solid rgba(250,247,242,.25);
+      color: rgba(250,247,242,.8);
+      font-size: .8rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      font-weight: 300;
+      transition: border-color .25s, color .25s, transform .2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+
+    /* scroll indicator */
+    .scroll-down {
+      position: absolute;
+      bottom: 42px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: .4;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-down span {
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 120px 60px; }
+
+    .section-label {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
     .section-title {
       font-family: var(--font-serif);
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 24px;
     }
 
-    /* ── 스토리 (브랜드 소개) ── */
-    .story-grid {
+    .section-body {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(250,247,242,.6);
+      font-weight: 300;
+      max-width: 560px;
+    }
+
+    /* ── STORY ── */
+    #story {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 80px;
       align-items: center;
+      background: var(--dark);
     }
-    .story-img-wrapper {
-      position: relative;
+
+    .story-image {
       aspect-ratio: 4/5;
-      background-color: #f0f0f0;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
       border-radius: 4px;
       overflow: hidden;
+      position: relative;
     }
-    .story-img-wrapper img {
-      width: 100%; height: 100%; object-fit: cover;
+    .story-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .story-img-placeholder {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-light); font-size: 0.9rem; letter-spacing: 0.1em;
+    .story-image .img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: rgba(184,146,74,.4);
     }
-    .story-text h3 {
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      margin-bottom: 30px;
-      line-height: 1.4;
-    }
-    .story-text p {
-      color: var(--text-gray);
-      margin-bottom: 20px;
-      font-size: 1.05rem;
-      word-break: keep-all;
+    .img-placeholder svg { opacity: .4; }
+    .img-placeholder p {
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(184,146,74,.5);
     }
 
-    /* ── 메뉴 ── */
-    .menu-container {
-      background-color: #FAFAFA;
-      padding: 140px 0;
-      width: 100%;
+    .story-text { }
+    .story-quote {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--gold-light);
+      line-height: 1.6;
+      margin: 28px 0;
+      padding-left: 24px;
+      border-left: 2px solid var(--gold);
     }
-    .menu-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 5%;
+
+    /* ── MENU ── */
+    #menu {
+      background: #0E0E0E;
+      text-align: center;
     }
+
+    .menu-header { margin-bottom: 72px; }
+    .menu-header .section-label,
+    .menu-header .section-title { margin-left: auto; margin-right: auto; }
+
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-tab {
+      padding: 12px 32px;
+      font-size: .75rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(250,247,242,.4);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color .25s, border-color .25s;
+      margin-bottom: -1px;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .menu-tab.active, .menu-tab:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
-    .menu-card {
-      background: var(--bg-light);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 30px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    .menu-panel { display: none; }
+    .menu-panel.active { display: contents; }
+
+    .menu-item {
+      background: rgba(255,255,255,.025);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+      text-align: left;
+      transition: background .25s, transform .25s;
+      cursor: default;
     }
-    .menu-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.04);
+    .menu-item:hover { background: rgba(184,146,74,.06); transform: translateY(-4px); }
+
+    .menu-item-image {
+      width: 100%;
+      aspect-ratio: 3/2;
+      background: rgba(255,255,255,.04);
+      border-radius: 2px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      position: relative;
     }
-    .menu-card h4 {
+    .menu-item-image img { width:100%; height:100%; object-fit:cover; display:block; }
+    .menu-item-image .img-tag {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(184,146,74,.35);
+    }
+
+    .menu-item-name {
       font-family: var(--font-serif);
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .menu-price {
-      color: var(--accent);
-      font-family: var(--font-sans);
+      font-size: 1.15rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      margin-bottom: 8px;
     }
-    .menu-card p {
-      color: var(--text-gray);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      word-break: keep-all;
+    .menu-item-desc {
+      font-size: .85rem;
+      line-height: 1.7;
+      color: rgba(250,247,242,.5);
+      margin-bottom: 20px;
+    }
+    .menu-item-price {
+      font-size: .9rem;
+      color: var(--gold);
+      letter-spacing: .06em;
     }
     .menu-badge {
-      font-size: 0.7rem;
-      background: var(--accent);
-      color: #fff;
-      padding: 3px 8px;
-      border-radius: 12px;
+      display: inline-block;
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 20px;
       margin-left: 10px;
       vertical-align: middle;
-      font-weight: normal;
     }
 
-    /* ── 철학 (아이콘 특징) ── */
-    .philosophy-grid {
+    /* ── VALUES ── */
+    #values {
+      background: var(--dark);
+      text-align: center;
+    }
+    .values-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
+      gap: 1px;
+      background: var(--border);
+      max-width: 1000px;
+      margin: 72px auto 0;
+      border: 1px solid var(--border);
+    }
+    .value-item {
+      background: var(--dark);
+      padding: 56px 40px;
       text-align: center;
     }
-    .philosophy-item {
-      padding: 40px 20px;
+    .value-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 24px;
+      color: var(--gold);
     }
-    .phil-icon {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: var(--accent);
-    }
-    .philosophy-item h4 {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
+    .value-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
       font-weight: 600;
+      margin-bottom: 12px;
     }
-    .philosophy-item p {
-      color: var(--text-gray);
-      font-size: 0.95rem;
-      word-break: keep-all;
+    .value-text {
+      font-size: .875rem;
+      line-height: 1.8;
+      color: rgba(250,247,242,.5);
     }
 
-    /* ── 푸터 ── */
-    footer {
-      background-color: #111;
-      color: #fff;
-      padding: 80px 5% 40px;
+    /* ── GALLERY ── */
+    #gallery {
+      padding: 120px 0;
+      background: #0A0A0A;
+      overflow: hidden;
+    }
+    .gallery-header {
       text-align: center;
+      padding: 0 60px;
+      margin-bottom: 72px;
+    }
+    .gallery-track {
+      display: flex;
+      gap: 16px;
+      padding: 0 60px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .gallery-track::-webkit-scrollbar { display: none; }
+    .gallery-card {
+      flex: 0 0 320px;
+      aspect-ratio: 3/4;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      transition: transform .3s;
+    }
+    .gallery-card:hover { transform: scale(1.02); }
+    .gallery-card img { width:100%; height:100%; object-fit:cover; display:block; }
+    .gallery-card-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .gallery-card-label span {
+      font-size: .65rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(184,146,74,.4);
+    }
+
+    /* ── INFO ── */
+    #info {
+      background: var(--dark);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .info-map {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: rgba(184,146,74,.4);
+      font-size: .72rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .info-details { padding-top: 8px; }
+    .info-row {
+      display: flex;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-row:first-child { border-top: 1px solid var(--border); }
+    .info-label {
+      font-size: .7rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      min-width: 90px;
+      padding-top: 3px;
+    }
+    .info-value {
+      font-size: .95rem;
+      line-height: 1.7;
+      color: rgba(250,247,242,.75);
+    }
+
+    /* ── CTA BANNER ── */
+    #cta-banner {
+      padding: 100px 60px;
+      background: #0E0E0E;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(184,146,74,.08) 0%, transparent 70%);
+    }
+    .cta-kicker {
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .cta-sub {
+      font-size: 1rem;
+      color: rgba(250,247,242,.5);
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0A0A0A;
+      padding: 60px 60px 40px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
     }
     .footer-logo {
       font-family: var(--font-serif);
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--cream);
     }
-    .footer-info {
-      color: #888;
-      font-size: 0.9rem;
-      margin-bottom: 40px;
-      line-height: 1.8;
+    .footer-logo span { color: var(--gold); }
+    .footer-logo p {
+      font-size: .75rem;
+      letter-spacing: .1em;
+      color: rgba(250,247,242,.3);
+      margin-top: 6px;
+      font-family: var(--font-sans);
+      font-weight: 300;
     }
+    .footer-links {
+      display: flex;
+      gap: 60px;
+    }
+    .footer-col h4 {
+      font-size: .65rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a {
+      font-size: .85rem;
+      color: rgba(250,247,242,.45);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--cream); }
     .footer-bottom {
-      border-top: 1px solid #333;
-      padding-top: 20px;
-      color: #555;
-      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-bottom p {
+      font-size: .75rem;
+      color: rgba(250,247,242,.25);
+      letter-spacing: .05em;
     }
 
-    /* ── 모바일 반응형 ── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; } /* 모바일에서는 링크 숨김 처리 (필요시 햄버거 메뉴 추가) */
-      .story-grid { grid-template-columns: 1fr; }
-      .philosophy-grid { grid-template-columns: 1fr; }
-      section { padding: 80px 5%; }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 28px; }
+      nav.scrolled { padding: 12px 28px; }
+      .nav-links { display: none; }
+      section { padding: 80px 28px; }
+      #story, #info { grid-template-columns: 1fr; gap: 48px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; gap: 40px; }
+      .footer-links { flex-direction: column; gap: 32px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      #gallery { padding: 80px 0; }
+      .gallery-header { padding: 0 28px; }
+      .gallery-track { padding: 0 28px; }
+      #cta-banner { padding: 80px 28px; }
     }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
   </style>
 </head>
 <body>
 
-  <!-- 네비게이션 바 -->
-  <nav id="navbar">
-    <a href="#" class="logo">욱이네<span>.</span></a>
-    <div class="nav-links">
-      <a href="#story">브랜드 스토리</a>
-      <a href="#menu">메뉴 안내</a>
-      <a href="#philosophy">우리의 철학</a>
-    </div>
-  </nav>
+<!-- ── NAVIGATION ── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">욱이네 <span>칼국수</span></a>
+  <ul class="nav-links">
+    <li><a href="#story">스토리</a></li>
+    <li><a href="#menu">메뉴</a></li>
+    <li><a href="#values">철학</a></li>
+    <li><a href="#gallery">갤러리</a></li>
+    <li><a href="#info">오시는길</a></li>
+  </ul>
+  <a href="#info" class="nav-cta">예약 문의</a>
+</nav>
 
-  <!-- 메인 히어로 -->
-  <header class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content fade-up">
-      <h1>본질을 담은<br>따뜻한 한 그릇</h1>
-      <p>매일 아침 빚어내는 정성, 욱이네 칼국수</p>
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-image-placeholder"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">손으로 반죽한 전통의 맛</span>
+    <h1 class="hero-title">욱이네<br /><em>칼국수</em></h1>
+    <p class="hero-sub">
+      매일 아침 직접 반죽하고 손으로 썬 면.<br />
+      40년 전통의 레시피가 오늘 당신의 식탁에 오릅니다.
+    </p>
+    <div class="hero-buttons">
+      <a href="#menu" class="btn-primary">메뉴 보기</a>
+      <a href="#story" class="btn-ghost">우리 이야기</a>
     </div>
-  </header>
+  </div>
+  <div class="scroll-down">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
 
-  <!-- 브랜드 스토리 -->
-  <section id="story">
-    <div class="story-grid">
-      <div class="story-text fade-up">
-        <div class="section-subtitle">Our Story</div>
-        <h3>시간이 빚어낸 깊은 맛,<br>그리고 정직한 손길.</h3>
-        <p>욱이네 칼국수는 화려한 기교를 부리지 않습니다. 매일 새벽 정성껏 반죽하고, 투박하지만 정직하게 썰어낸 면발 하나에 모든 진심을 담습니다.</p>
-        <p>기계를 거치지 않은 손면 특유의 쫄깃함과 조미료 없이 자연 재료로만 푹 끓여낸 맑고 깊은 육수. 가장 기본에 충실한 것이 가장 특별한 맛을 낸다는 믿음으로 오늘 하루도 정성껏 불을 올립니다.</p>
-      </div>
-      <div class="story-img-wrapper fade-up delay-1">
-        <!-- ★ 나중에 src 안에 이미지 링크 삽입 ★ -->
-        <!-- <img src="story-image.jpg" alt="욱이네 칼국수 면발"> -->
-        <div class="story-img-placeholder">이미지 영역</div>
-      </div>
+<!-- ── STORY ── -->
+<section id="story">
+  <div class="story-image reveal">
+    <!-- 이미지 넣을 때: <img src="story.jpg" alt="욱이네 칼국수 이야기"> -->
+    <div class="img-placeholder">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <p>이미지 준비 중</p>
     </div>
-  </section>
+  </div>
+  <div class="story-text reveal reveal-delay-1">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">면 한 그릇에<br />담긴 정성</h2>
+    <blockquote class="story-quote">
+      "좋은 재료와 정직한 손길,<br />그것이 전부입니다."
+    </blockquote>
+    <p class="section-body">
+      욱이네 칼국수는 국내산 밀가루와 청정 육수로 매일 새벽 반죽을 시작합니다.
+      기계를 쓰지 않고 손으로 직접 밀고 써는 면은 씹을수록 깊은 맛이 납니다.
+      조미료 없이 사골과 멸치, 제철 채소로만 우린 육수가 그 맛을 완성합니다.
+    </p>
+    <p class="section-body" style="margin-top:16px;">
+      창업 대회 참가를 계기로 더 많은 분들께 이 맛을 전하고자 합니다.
+      전통의 깊이를 지키면서도, 현대의 감각으로 새롭게 선보이겠습니다.
+    </p>
+  </div>
+</section>
 
-  <!-- 메뉴 영역 (배경색이 다름) -->
-  <div class="menu-container" id="menu">
-    <div class="menu-inner">
-      <div class="section-header fade-up">
-        <div class="section-subtitle">Menu</div>
-        <h2 class="section-title">욱이네 차림표</h2>
+<!-- ── MENU ── -->
+<section id="menu">
+  <div class="menu-header">
+    <p class="section-label reveal">Menu</p>
+    <h2 class="section-title reveal reveal-delay-1">정성으로 준비한<br />오늘의 메뉴</h2>
+  </div>
+
+  <div class="menu-tabs">
+    <button class="menu-tab active" onclick="switchTab(this, 'noodles')">칼국수</button>
+    <button class="menu-tab" onclick="switchTab(this, 'sides')">사이드</button>
+    <button class="menu-tab" onclick="switchTab(this, 'drinks')">음료</button>
+  </div>
+
+  <div id="noodles" class="menu-panel active menu-grid">
+    <div class="menu-item reveal">
+      <div class="menu-item-image">
+        <!-- <img src="bajirak.jpg" alt="바지락 칼국수"> -->
+        <span class="img-tag">이미지 준비 중</span>
       </div>
-      
-      <div class="menu-grid">
-        <!-- 메뉴 1 -->
-        <div class="menu-card fade-up">
-          <h4>바지락 칼국수 <span class="menu-price">9,000원</span></h4>
-          <p>산지 직송으로 공수한 신선하고 통통한 바지락을 듬뿍 넣어 끓여낸 시원하고 깔끔한 맛의 대표 메뉴.</p>
-        </div>
-        <!-- 메뉴 2 -->
-        <div class="menu-card fade-up delay-1">
-          <h4>진한 사골 칼국수 <span class="menu-badge">Best</span> <span class="menu-price">10,000원</span></h4>
-          <p>가마솥에서 12시간 이상 정성스레 고아낸 뽀얗고 진한 한우 사골 육수의 깊고 든든한 맛.</p>
-        </div>
-        <!-- 메뉴 3 -->
-        <div class="menu-card fade-up delay-2">
-          <h4>얼큰 장칼국수 <span class="menu-price">9,500원</span></h4>
-          <p>직접 담근 숙성 고추장을 풀어 칼칼하면서도 기분 좋은 매운맛을 내는 강원도식 장칼국수.</p>
-        </div>
-        <!-- 메뉴 4 -->
-        <div class="menu-card fade-up">
-          <h4>손만두 (고기/김치) <span class="menu-price">6,000원</span></h4>
-          <p>얇은 피 속에 신선한 채소와 육즙을 가득 채워 매일 매장에서 직접 빚어내는 수제 만두.</p>
-        </div>
+      <div class="menu-item-name">바지락 칼국수 <span class="menu-badge">대표</span></div>
+      <div class="menu-item-desc">통통한 바지락과 깊은 해물 육수, 매일 손으로 썬 넓적 면이 어우러진 시그니처 메뉴</div>
+      <div class="menu-item-price">9,000원</div>
+    </div>
+    <div class="menu-item reveal reveal-delay-1">
+      <div class="menu-item-image">
+        <span class="img-tag">이미지 준비 중</span>
       </div>
+      <div class="menu-item-name">사골 칼국수</div>
+      <div class="menu-item-desc">6시간 이상 우린 진한 사골 육수에 고소한 면발. 속 든든한 한 끼</div>
+      <div class="menu-item-price">10,000원</div>
+    </div>
+    <div class="menu-item reveal reveal-delay-2">
+      <div class="menu-item-image">
+        <span class="img-tag">이미지 준비 중</span>
+      </div>
+      <div class="menu-item-name">얼큰 칼국수 <span class="menu-badge">인기</span></div>
+      <div class="menu-item-desc">칼칼한 양념과 채소가 어우러진 얼큰한 국물, 추운 날 생각나는 바로 그 맛</div>
+      <div class="menu-item-price">9,500원</div>
+    </div>
+    <div class="menu-item reveal reveal-delay-3">
+      <div class="menu-item-image">
+        <span class="img-tag">이미지 준비 중</span>
+      </div>
+      <div class="menu-item-name">들깨 칼국수</div>
+      <div class="menu-item-desc">고소한 들깨 육수와 부드러운 면의 조합. 어르신들께 특히 사랑받는 메뉴</div>
+      <div class="menu-item-price">9,500원</div>
     </div>
   </div>
 
-  <!-- 철학 섹션 -->
-  <section id="philosophy">
-    <div class="section-header fade-up">
-      <div class="section-subtitle">Philosophy</div>
-      <h2 class="section-title">타협하지 않는 원칙</h2>
+  <div id="sides" class="menu-panel menu-grid">
+    <div class="menu-item reveal">
+      <div class="menu-item-image"><span class="img-tag">이미지 준비 중</span></div>
+      <div class="menu-item-name">수제 김치</div>
+      <div class="menu-item-desc">직접 담근 배추김치. 아삭하고 깊은 맛</div>
+      <div class="menu-item-price">무료 제공</div>
     </div>
-    
-    <div class="philosophy-grid">
-      <div class="philosophy-item fade-up">
-        <div class="phil-icon">🌾</div>
-        <h4>당일 반죽, 당일 소진</h4>
-        <p>면의 쫄깃함을 잃지 않기 위해 매일 쓸 만큼만 반죽하며, 남은 반죽은 절대 다음 날 사용하지 않습니다.</p>
+    <div class="menu-item reveal reveal-delay-1">
+      <div class="menu-item-image"><span class="img-tag">이미지 준비 중</span></div>
+      <div class="menu-item-name">공기밥</div>
+      <div class="menu-item-desc">윤기 흐르는 국내산 쌀밥</div>
+      <div class="menu-item-price">1,000원</div>
+    </div>
+    <div class="menu-item reveal reveal-delay-2">
+      <div class="menu-item-image"><span class="img-tag">이미지 준비 중</span></div>
+      <div class="menu-item-name">수제 만두 (6개)</div>
+      <div class="menu-item-desc">직접 빚은 고기·야채 혼합 만두, 속이 꽉 찬</div>
+      <div class="menu-item-price">5,000원</div>
+    </div>
+  </div>
+
+  <div id="drinks" class="menu-panel menu-grid">
+    <div class="menu-item reveal">
+      <div class="menu-item-image"><span class="img-tag">이미지 준비 중</span></div>
+      <div class="menu-item-name">식혜</div>
+      <div class="menu-item-desc">직접 만든 전통 식혜, 식사 후 깔끔하게</div>
+      <div class="menu-item-price">2,000원</div>
+    </div>
+    <div class="menu-item reveal reveal-delay-1">
+      <div class="menu-item-image"><span class="img-tag">이미지 준비 중</span></div>
+      <div class="menu-item-name">보리차 / 물</div>
+      <div class="menu-item-desc">구수한 보리차 무한 제공</div>
+      <div class="menu-item-price">무료 제공</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VALUES ── -->
+<section id="values">
+  <p class="section-label reveal">Our Philosophy</p>
+  <h2 class="section-title reveal reveal-delay-1">욱이네가 지키는 세 가지</h2>
+  <div class="values-grid">
+    <div class="value-item reveal">
+      <svg class="value-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4z"/>
+        <path d="M24 14v10l6 6"/>
+      </svg>
+      <div class="value-title">매일 새벽 직접 반죽</div>
+      <div class="value-text">기계 없이, 매일 새벽 손으로 반죽하고 썹니다. 그날 만든 면만 사용하며 남은 면은 폐기합니다.</div>
+    </div>
+    <div class="value-item reveal reveal-delay-1">
+      <svg class="value-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 36c0-8 5-14 12-16 7 2 12 8 12 16"/>
+        <path d="M24 6v6M12 12l4 4M36 12l-4 4"/>
+        <circle cx="24" cy="22" r="4"/>
+      </svg>
+      <div class="value-title">국내산 재료만 사용</div>
+      <div class="value-text">국내산 밀가루, 국산 바지락, 청정 사골만 사용합니다. 원산지는 항상 투명하게 공개합니다.</div>
+    </div>
+    <div class="value-item reveal reveal-delay-2">
+      <svg class="value-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 20h4l4-12 8 28 4-16 4 8h8"/>
+      </svg>
+      <div class="value-title">무첨가 정직한 육수</div>
+      <div class="value-text">MSG, 화학 조미료 일절 사용하지 않습니다. 오직 재료 본연의 맛으로 육수를 냅니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="section-label reveal">Gallery</p>
+    <h2 class="section-title reveal reveal-delay-1">한 그릇의 순간들</h2>
+  </div>
+  <div class="gallery-track">
+    <div class="gallery-card">
+      <!-- <img src="gallery1.jpg" alt=""> -->
+      <div class="gallery-card-label"><span>이미지 1</span></div>
+    </div>
+    <div class="gallery-card">
+      <div class="gallery-card-label"><span>이미지 2</span></div>
+    </div>
+    <div class="gallery-card">
+      <div class="gallery-card-label"><span>이미지 3</span></div>
+    </div>
+    <div class="gallery-card">
+      <div class="gallery-card-label"><span>이미지 4</span></div>
+    </div>
+    <div class="gallery-card">
+      <div class="gallery-card-label"><span>이미지 5</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INFO ── -->
+<section id="info">
+  <div class="info-map reveal">
+    <!-- 네이버/카카오 지도 임베드 혹은 이미지 삽입 가능 -->
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+      <circle cx="12" cy="9" r="2.5"/>
+    </svg>
+    <span>지도 이미지 또는 임베드</span>
+  </div>
+  <div class="info-details reveal reveal-delay-1">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title" style="margin-bottom:36px;">오시는 길</h2>
+    <div class="info-row">
+      <span class="info-label">주소</span>
+      <span class="info-value">경기도 ○○시 ○○구 ○○로 123<br />(○○역 3번 출구 도보 5분)</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">영업시간</span>
+      <span class="info-value">월 – 금  11:00 – 21:00<br />토 – 일  11:00 – 20:00<br /><span style="color:rgba(184,146,74,.6);font-size:.82rem;">매주 화요일 정기휴무</span></span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">전화</span>
+      <span class="info-value">010-0000-0000</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">주차</span>
+      <span class="info-value">건물 내 무료주차 30분</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA BANNER ── -->
+<section id="cta-banner">
+  <p class="cta-kicker reveal">지금 바로</p>
+  <h2 class="cta-title reveal reveal-delay-1">오늘 한 그릇 어떠세요?</h2>
+  <p class="cta-sub reveal reveal-delay-2">따뜻한 면 한 그릇이 기다리고 있습니다</p>
+  <div class="reveal reveal-delay-3">
+    <a href="tel:010-0000-0000" class="btn-primary">전화 예약</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo">
+      욱이네 <span>칼국수</span>
+      <p>손으로 빚은 전통, 오늘의 한 그릇</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>메뉴</h4>
+        <ul>
+          <li><a href="#menu">칼국수</a></li>
+          <li><a href="#menu">사이드</a></li>
+          <li><a href="#menu">음료</a></li>
+        </ul>
       </div>
-      <div class="philosophy-item fade-up delay-1">
-        <div class="phil-icon">🥣</div>
-        <h4>무화학 조미료</h4>
-        <p>자연이 내어준 재료 본연의 감칠맛을 끌어내기 위해 인공 조미료 없이 천연 재료로만 육수를 냅니다.</p>
-      </div>
-      <div class="philosophy-item fade-up delay-2">
-        <div class="phil-icon">🇰🇷</div>
-        <h4>100% 국내산 식재료</h4>
-        <p>칼국수의 기본이 되는 밀가루부터 김치에 들어가는 고춧가루까지 모두 믿을 수 있는 국내산을 고집합니다.</p>
+      <div class="footer-col">
+        <h4>정보</h4>
+        <ul>
+          <li><a href="#story">우리 이야기</a></li>
+          <li><a href="#values">식재료 철학</a></li>
+          <li><a href="#info">오시는 길</a></li>
+        </ul>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 욱이네 칼국수. All rights reserved.</p>
+    <p>사업자등록번호 : 000-00-00000</p>
+  </div>
+</footer>
 
-  <!-- 푸터 -->
-  <footer>
-    <div class="footer-logo">욱이네 칼국수</div>
-    <div class="footer-info">
-      경기도 하남시 창업로 123 (대회용 가상 주소)<br>
-      영업시간: 11:00 ~ 20:00 (매주 화요일 휴무)<br>
-      가맹 및 단체 문의: 010-0000-0000
-    </div>
-    <div class="footer-bottom">
-      &copy; 2026 Wook's Noodle. 창업경영대회 출품작. All rights reserved.
-    </div>
-  </footer>
+<script>
+  // NAV scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
 
-  <script>
-    // 네비게이션 바 스크롤 효과
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
 
-    // 스크롤 시 부드럽게 나타나는 애니메이션 (Intersection Observer)
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target); // 한 번 보이면 계속 유지
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-up').forEach(element => {
-      observer.observe(element);
-    });
-  </script>
+  // Menu tabs
+  function switchTab(btn, panelId) {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+  }
+</script>
 </body>
 </html>
