@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>욱이네 칼국수 | 정성을 빚다</title>
+  
+  <!-- 폰트 로드: 전통적인 느낌의 명조체와 모던한 고딕체 혼합 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+
+  <style>
+    /* ── 변수 및 기본 설정 ── */
+    :root {
+      --bg-light: #FDFDFD;
+      --text-dark: #1A1A1A;
+      --text-gray: #666666;
+      --text-light: #999999;
+      --accent: #B28753; /* 밀, 나무 느낌의 따뜻한 베이지 브라운 */
+      --border-color: #EAEAEA;
+      
+      --font-serif: 'Noto Serif KR', serif;
+      --font-sans: 'Pretendard', -apple-system, sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── 유틸리티: 스크롤 애니메이션 ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+
+    /* ── 네비게이션 ── */
+    nav {
+      position: fixed;
+      top: 0; width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 5%;
+      z-index: 1000;
+      background: rgba(253, 253, 253, 0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+    nav.scrolled {
+      padding: 16px 5%;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .logo {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-gray);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-dark); }
+
+    /* ── 히어로 섹션 ── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    /* 배경 이미지 들어갈 곳 */
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: #f5f5f5; /* 이미지 없을 때 배경색 */
+      background-image: url(''); /* ★ 메인 배경 이미지 URL 삽입 ★ */
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+    }
+    /* 배경 이미지를 부드럽게 눌러주는 오버레이 */
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(253,253,253,0.3) 0%, rgba(253,253,253,1) 100%);
+      z-index: -1;
+    }
+
+    .hero-content h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      color: var(--text-dark);
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+      color: var(--text-gray);
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+
+    /* ── 공통 섹션 스타일 ── */
+    section {
+      padding: 140px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .section-subtitle {
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 600;
+    }
+
+    /* ── 스토리 (브랜드 소개) ── */
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .story-img-wrapper {
+      position: relative;
+      aspect-ratio: 4/5;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .story-img-wrapper img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .story-img-placeholder {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-light); font-size: 0.9rem; letter-spacing: 0.1em;
+    }
+    .story-text h3 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+    .story-text p {
+      color: var(--text-gray);
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+      word-break: keep-all;
+    }
+
+    /* ── 메뉴 ── */
+    .menu-container {
+      background-color: #FAFAFA;
+      padding: 140px 0;
+      width: 100%;
+    }
+    .menu-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+    .menu-card {
+      background: var(--bg-light);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.04);
+    }
+    .menu-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .menu-price {
+      color: var(--accent);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .menu-card p {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+    .menu-badge {
+      font-size: 0.7rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 12px;
+      margin-left: 10px;
+      vertical-align: middle;
+      font-weight: normal;
+    }
+
+    /* ── 철학 (아이콘 특징) ── */
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+    .philosophy-item {
+      padding: 40px 20px;
+    }
+    .phil-icon {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+    .philosophy-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    .philosophy-item p {
+      color: var(--text-gray);
+      font-size: 0.95rem;
+      word-break: keep-all;
+    }
+
+    /* ── 푸터 ── */
+    footer {
+      background-color: #111;
+      color: #fff;
+      padding: 80px 5% 40px;
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    .footer-info {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      color: #555;
+      font-size: 0.8rem;
+    }
+
+    /* ── 모바일 반응형 ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; } /* 모바일에서는 링크 숨김 처리 (필요시 햄버거 메뉴 추가) */
+      .story-grid { grid-template-columns: 1fr; }
+      .philosophy-grid { grid-template-columns: 1fr; }
+      section { padding: 80px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 네비게이션 바 -->
+  <nav id="navbar">
+    <a href="#" class="logo">욱이네<span>.</span></a>
+    <div class="nav-links">
+      <a href="#story">브랜드 스토리</a>
+      <a href="#menu">메뉴 안내</a>
+      <a href="#philosophy">우리의 철학</a>
+    </div>
+  </nav>
+
+  <!-- 메인 히어로 -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-up">
+      <h1>본질을 담은<br>따뜻한 한 그릇</h1>
+      <p>매일 아침 빚어내는 정성, 욱이네 칼국수</p>
+    </div>
+  </header>
+
+  <!-- 브랜드 스토리 -->
+  <section id="story">
+    <div class="story-grid">
+      <div class="story-text fade-up">
+        <div class="section-subtitle">Our Story</div>
+        <h3>시간이 빚어낸 깊은 맛,<br>그리고 정직한 손길.</h3>
+        <p>욱이네 칼국수는 화려한 기교를 부리지 않습니다. 매일 새벽 정성껏 반죽하고, 투박하지만 정직하게 썰어낸 면발 하나에 모든 진심을 담습니다.</p>
+        <p>기계를 거치지 않은 손면 특유의 쫄깃함과 조미료 없이 자연 재료로만 푹 끓여낸 맑고 깊은 육수. 가장 기본에 충실한 것이 가장 특별한 맛을 낸다는 믿음으로 오늘 하루도 정성껏 불을 올립니다.</p>
+      </div>
+      <div class="story-img-wrapper fade-up delay-1">
+        <!-- ★ 나중에 src 안에 이미지 링크 삽입 ★ -->
+        <!-- <img src="story-image.jpg" alt="욱이네 칼국수 면발"> -->
+        <div class="story-img-placeholder">이미지 영역</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 메뉴 영역 (배경색이 다름) -->
+  <div class="menu-container" id="menu">
+    <div class="menu-inner">
+      <div class="section-header fade-up">
+        <div class="section-subtitle">Menu</div>
+        <h2 class="section-title">욱이네 차림표</h2>
+      </div>
+      
+      <div class="menu-grid">
+        <!-- 메뉴 1 -->
+        <div class="menu-card fade-up">
+          <h4>바지락 칼국수 <span class="menu-price">9,000원</span></h4>
+          <p>산지 직송으로 공수한 신선하고 통통한 바지락을 듬뿍 넣어 끓여낸 시원하고 깔끔한 맛의 대표 메뉴.</p>
+        </div>
+        <!-- 메뉴 2 -->
+        <div class="menu-card fade-up delay-1">
+          <h4>진한 사골 칼국수 <span class="menu-badge">Best</span> <span class="menu-price">10,000원</span></h4>
+          <p>가마솥에서 12시간 이상 정성스레 고아낸 뽀얗고 진한 한우 사골 육수의 깊고 든든한 맛.</p>
+        </div>
+        <!-- 메뉴 3 -->
+        <div class="menu-card fade-up delay-2">
+          <h4>얼큰 장칼국수 <span class="menu-price">9,500원</span></h4>
+          <p>직접 담근 숙성 고추장을 풀어 칼칼하면서도 기분 좋은 매운맛을 내는 강원도식 장칼국수.</p>
+        </div>
+        <!-- 메뉴 4 -->
+        <div class="menu-card fade-up">
+          <h4>손만두 (고기/김치) <span class="menu-price">6,000원</span></h4>
+          <p>얇은 피 속에 신선한 채소와 육즙을 가득 채워 매일 매장에서 직접 빚어내는 수제 만두.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 철학 섹션 -->
+  <section id="philosophy">
+    <div class="section-header fade-up">
+      <div class="section-subtitle">Philosophy</div>
+      <h2 class="section-title">타협하지 않는 원칙</h2>
+    </div>
+    
+    <div class="philosophy-grid">
+      <div class="philosophy-item fade-up">
+        <div class="phil-icon">🌾</div>
+        <h4>당일 반죽, 당일 소진</h4>
+        <p>면의 쫄깃함을 잃지 않기 위해 매일 쓸 만큼만 반죽하며, 남은 반죽은 절대 다음 날 사용하지 않습니다.</p>
+      </div>
+      <div class="philosophy-item fade-up delay-1">
+        <div class="phil-icon">🥣</div>
+        <h4>무화학 조미료</h4>
+        <p>자연이 내어준 재료 본연의 감칠맛을 끌어내기 위해 인공 조미료 없이 천연 재료로만 육수를 냅니다.</p>
+      </div>
+      <div class="philosophy-item fade-up delay-2">
+        <div class="phil-icon">🇰🇷</div>
+        <h4>100% 국내산 식재료</h4>
+        <p>칼국수의 기본이 되는 밀가루부터 김치에 들어가는 고춧가루까지 모두 믿을 수 있는 국내산을 고집합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer>
+    <div class="footer-logo">욱이네 칼국수</div>
+    <div class="footer-info">
+      경기도 하남시 창업로 123 (대회용 가상 주소)<br>
+      영업시간: 11:00 ~ 20:00 (매주 화요일 휴무)<br>
+      가맹 및 단체 문의: 010-0000-0000
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Wook's Noodle. 창업경영대회 출품작. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // 네비게이션 바 스크롤 효과
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // 스크롤 시 부드럽게 나타나는 애니메이션 (Intersection Observer)
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // 한 번 보이면 계속 유지
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-up').forEach(element => {
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>
